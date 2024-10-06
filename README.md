@@ -22,7 +22,7 @@ CREATE TABLE `sõndmused` (
 
 CREATE TABLE `meeldetuletused` (
     meeldetuletus_id INT AUTO_INCREMENT PRIMARY KEY,
-    sündmus_id INT,
+    sõndmus_id INT,
     meeldetuletuse_aeg DATETIME NOT NULL,
-    FOREIGN KEY (sündmus_id) REFERENCES Sündmused(sündmus_id) ON DELETE CASCADE
+    FOREIGN KEY (sõndmus_id) REFERENCES Sündmused(sõndmus_id) ON DELETE CASCADE
 );
