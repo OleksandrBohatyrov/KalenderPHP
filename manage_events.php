@@ -12,7 +12,7 @@ $user_id = $_SESSION['user_id'];
 // Handle delete event request
 if (isset($_GET['delete'])) {
     $event_id = $_GET['delete'];
-    $delete_sql = "DELETE FROM `sõndmused` WHERE sündmus_id = ?";
+    $delete_sql = "DELETE FROM `sondmused` WHERE sündmus_id = ?";
     $delete_stmt = $conn->prepare($delete_sql);
     $delete_stmt->bind_param("i", $event_id);
     $delete_stmt->execute();
@@ -27,7 +27,7 @@ if (isset($_POST['update_event'])) {
     $start_time = $_POST['start_time'];
     $end_time = $_POST['end_time'];
 
-    $update_sql = "UPDATE `sõndmused` SET pealkiri = ?, kirjeldus = ?, algus_aeg = ?, lõpp_aeg = ? WHERE sõndmus_id = ?";
+    $update_sql = "UPDATE `sondmused` SET pealkiri = ?, kirjeldus = ?, algus_aeg = ?, lopp_aeg = ? WHERE sondmus_id = ?";
     $update_stmt = $conn->prepare($update_sql);
     $update_stmt->bind_param("ssssi", $title, $description, $start_time, $end_time, $event_id);
     $update_stmt->execute();
@@ -41,7 +41,7 @@ if (isset($_POST['add_event'])) {
     $start_time = $_POST['start_time'];
     $end_time = $_POST['end_time'];
 
-    $insert_sql = "INSERT INTO `sõndmused` (kasutaja_id, pealkiri, kirjeldus, algus_aeg, lõpp_aeg, loodud) VALUES (?, ?, ?, ?, ?, NOW())";
+    $insert_sql = "INSERT INTO `sondmused` (kasutaja_id, pealkiri, kirjeldus, algus_aeg, lopp_aeg, loodud) VALUES (?, ?, ?, ?, ?, NOW())";
     $insert_stmt = $conn->prepare($insert_sql);
     $insert_stmt->bind_param("issss", $user_id, $title, $description, $start_time, $end_time);
     $insert_stmt->execute();
@@ -50,7 +50,7 @@ if (isset($_POST['add_event'])) {
 
 // Fetch events for logged-in user
 $events = [];
-$event_sql = "SELECT sõndmus_id, pealkiri, kirjeldus, algus_aeg, lõpp_aeg FROM `sõndmused` WHERE kasutaja_id = ?";
+$event_sql = "SELECT sondmus_id, pealkiri, kirjeldus, algus_aeg, lopp_aeg FROM `sondmused` WHERE kasutaja_id = ?";
 $event_stmt = $conn->prepare($event_sql);
 $event_stmt->bind_param("i", $user_id);
 $event_stmt->execute();
@@ -106,7 +106,7 @@ $conn->close();
             <tr>
                 <form method="post" action="manage_events.php">
                     <td>
-                        <input type="hidden" name="event_id" value="<?php echo $event['sõndmus_id']; ?>">
+                        <input type="hidden" name="event_id" value="<?php echo $event['sondmus_id']; ?>">
                         <input type="text" name="title" value="<?php echo htmlspecialchars($event['pealkiri']); ?>" required>
                     </td>
                     <td>
@@ -116,11 +116,11 @@ $conn->close();
                         <input type="datetime-local" name="start_time" value="<?php echo date('Y-m-d\TH:i', strtotime($event['algus_aeg'])); ?>" required>
                     </td>
                     <td>
-                        <input type="datetime-local" name="end_time" value="<?php echo date('Y-m-d\TH:i', strtotime($event['lõpp_aeg'])); ?>" required>
+                        <input type="datetime-local" name="end_time" value="<?php echo date('Y-m-d\TH:i', strtotime($event['lopp_aeg'])); ?>" required>
                     </td>
                     <td>
                         <button type="submit" name="update_event">Muuda</button>
-                        <a href="manage_events.php?delete=<?php echo $event['sõndmus_id']; ?>" onclick="return confirm('Kas olete kindel, et soovite kustutada sündmuse?');">Kustuta</a>
+                        <a href="manage_events.php?delete=<?php echo $event['sondmus_id']; ?>" onclick="return confirm('Kas olete kindel, et soovite kustutada sündmuse?');">Kustuta</a>
                     </td>
                 </form>
             </tr>

@@ -9,7 +9,7 @@ if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 
     // Fetch events
-    $sql = "SELECT sõndmus_id, pealkiri, kirjeldus, algus_aeg, lõpp_aeg FROM `sõndmused` WHERE kasutaja_id = ?";
+    $sql = "SELECT sondmus_id, pealkiri, kirjeldus, algus_aeg, lõpp_aeg FROM `sondmused` WHERE kasutaja_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -21,12 +21,12 @@ if (isset($_SESSION['user_id'])) {
             'title' => $row['pealkiri'],
             'description' => $row['kirjeldus'],
             'start' => $row['algus_aeg'],
-            'end' => $row['lõpp_aeg']
+            'end' => $row['lopp_aeg']
         ];
     }
 
     // Fetch reminders
-    $reminder_sql = "SELECT meeldetuletuse_aeg FROM `meeldetuletused` INNER JOIN `sõndmused` ON `Meeldetuletused`.sõndmus_id = `sõndmused`.sõndmus_id WHERE `sõndmused`.kasutaja_id = ?";
+    $reminder_sql = "SELECT meeldetuletuse_aeg FROM `meeldetuletused` INNER JOIN `sondmused` ON `Meeldetuletused`.sondmus_id = `sondmused`.sondmus_id WHERE `sondmused`.kasutaja_id = ?";
     $reminder_stmt = $conn->prepare($reminder_sql);
     $reminder_stmt->bind_param("i", $user_id);
     $reminder_stmt->execute();
@@ -122,7 +122,7 @@ $conn->close();
                     alert("Meeldetuletus: on aeg ühe teie sündmuse jaoks!");
                 }
             });
-        }, 30000); // Check every minute
+        }, 30000);
     });
 </script>
 </body>

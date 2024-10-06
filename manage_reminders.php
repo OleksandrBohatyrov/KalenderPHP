@@ -35,7 +35,7 @@ if (isset($_POST['add_reminder'])) {
     $event_id = $_POST['event_id'];
     $reminder_time = $_POST['reminder_time'];
 
-    $insert_sql = "INSERT INTO `meeldetuletused` (sõndmus_id, meeldetuletuse_aeg) VALUES (?, ?)";
+    $insert_sql = "INSERT INTO `meeldetuletused` (sondmus_id, meeldetuletuse_aeg) VALUES (?, ?)";
     $insert_stmt = $conn->prepare($insert_sql);
     $insert_stmt->bind_param("is", $event_id, $reminder_time);
     $insert_stmt->execute();
@@ -44,10 +44,10 @@ if (isset($_POST['add_reminder'])) {
 
 // Fetch reminders for logged-in user
 $reminders = [];
-$reminder_sql = "SELECT `meeldetuletused`.meeldetuletus_id, `meeldetuletused`.meeldetuletuse_aeg, `sõndmused`.pealkiri 
+$reminder_sql = "SELECT `meeldetuletused`.meeldetuletus_id, `meeldetuletused`.meeldetuletuse_aeg, `sondmused`.pealkiri 
                  FROM `meeldetuletused` 
-                 INNER JOIN `sõndmused` ON `meeldetuletused`.sõndmus_id = `sõndmused`.sõndmus_id 
-                 WHERE `sõndmused`.kasutaja_id = ?";
+                 INNER JOIN `sondmused` ON `meeldetuletused`.sondmus_id = `sondmused`.sondmus_id 
+                 WHERE `sondmused`.kasutaja_id = ?";
 $reminder_stmt = $conn->prepare($reminder_sql);
 $reminder_stmt->bind_param("i", $user_id);
 $reminder_stmt->execute();
@@ -59,7 +59,7 @@ while ($reminder = $reminder_result->fetch_assoc()) {
 
 // Fetch events for logged-in user to populate dropdown
 $events = [];
-$event_sql = "SELECT sõndmus_id, pealkiri FROM `sõndmused` WHERE kasutaja_id = ?";
+$event_sql = "SELECT sondmus_id, pealkiri FROM `sondmused` WHERE kasutaja_id = ?";
 $event_stmt = $conn->prepare($event_sql);
 $event_stmt->bind_param("i", $user_id);
 $event_stmt->execute();
@@ -87,7 +87,7 @@ $conn->close();
     <label for="event_id">Vali sündmus:</label>
     <select name="event_id" id="event_id" required>
         <?php foreach ($events as $event): ?>
-            <option value="<?php echo $event['sõndmus_id']; ?>">
+            <option value="<?php echo $event['sondmus_id']; ?>">
                 <?php echo htmlspecialchars($event['pealkiri']); ?>
             </option>
         <?php endforeach; ?>
