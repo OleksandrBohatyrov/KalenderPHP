@@ -1,5 +1,6 @@
 <?php
 include 'db_connect.php';
+include 'navbar.php'; // Подключаем файл с навигацией
 global $conn;
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -16,7 +17,7 @@ if (isset($_GET['delete'])) {
     $delete_stmt = $conn->prepare($delete_sql);
     $delete_stmt->bind_param("i", $event_id);
     $delete_stmt->execute();
-    echo "Event deleted successfully";
+
 }
 
 // Handle update event request
@@ -31,7 +32,7 @@ if (isset($_POST['update_event'])) {
     $update_stmt = $conn->prepare($update_sql);
     $update_stmt->bind_param("ssssi", $title, $description, $start_time, $end_time, $event_id);
     $update_stmt->execute();
-    echo "Event updated successfully";
+
 }
 
 // Handle add event request
@@ -45,7 +46,7 @@ if (isset($_POST['add_event'])) {
     $insert_stmt = $conn->prepare($insert_sql);
     $insert_stmt->bind_param("issss", $user_id, $title, $description, $start_time, $end_time);
     $insert_stmt->execute();
-    echo "New event added successfully";
+
 }
 
 // Fetch events for logged-in user
@@ -64,73 +65,106 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="et">
+
 <head>
     <meta charset="UTF-8">
     <title>Sündmuste haldamine</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
-<body>
-<h2>Sündmuste haldamine</h2>
 
-<!-- Form to add new event -->
-<h3>Lisa uus sündmus</h3>
-<form method="post" action="manage_events.php">
-    <label for="title">Pealkiri:</label>
-    <input type="text" name="title" id="title" required><br><br>
+<body >
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Sündmuste haldamine</h2>
 
-    <label for="description">Kirjeldus:</label>
-    <textarea name="description" id="description" required></textarea><br><br>
-
-    <label for="start_time">Algusaeg:</label>
-    <input type="datetime-local" name="start_time" id="start_time" required><br><br>
-
-    <label for="end_time">Lõpuaeg:</label>
-    <input type="datetime-local" name="end_time" id="end_time" required><br><br>
-
-    <button type="submit" name="add_event">Lisa sündmus</button>
-</form>
-
-<hr>
-
-<!-- Display events with options to edit or delete -->
-<?php if (count($events) > 0): ?>
-    <h3>Sinu sündmused</h3>
-    <table border="1">
-        <tr>
-            <th>Pealkiri</th>
-            <th>Kirjeldus</th>
-            <th>Algusaeg</th>
-            <th>Lõpuaeg</th>
-            <th>Tegevused</th>
-        </tr>
-        <?php foreach ($events as $event): ?>
-            <tr>
+        <!-- Form to add new event -->
+        <div class="card mb-4">
+            <div class="card-header bg-hex-" #0B192C" text-white">
+                Lisa uus sündmus
+            </div>
+            <div class="card-body">
                 <form method="post" action="manage_events.php">
-                    <td>
-                        <input type="hidden" name="event_id" value="<?php echo $event['sondmus_id']; ?>">
-                        <input type="text" name="title" value="<?php echo htmlspecialchars($event['pealkiri']); ?>" required>
-                    </td>
-                    <td>
-                        <textarea name="description" required><?php echo htmlspecialchars($event['kirjeldus']); ?></textarea>
-                    </td>
-                    <td>
-                        <input type="datetime-local" name="start_time" value="<?php echo date('Y-m-d\TH:i', strtotime($event['algus_aeg'])); ?>" required>
-                    </td>
-                    <td>
-                        <input type="datetime-local" name="end_time" value="<?php echo date('Y-m-d\TH:i', strtotime($event['lopp_aeg'])); ?>" required>
-                    </td>
-                    <td>
-                        <button type="submit" name="update_event">Muuda</button>
-                        <a href="manage_events.php?delete=<?php echo $event['sondmus_id']; ?>" onclick="return confirm('Kas olete kindel, et soovite kustutada sündmuse?');">Kustuta</a>
-                    </td>
-                </form>
-            </tr>
-        <?php endforeach; ?>
-    </table>
-<?php else: ?>
-    <p>Teil pole sündmusi.</p>
-<?php endif; ?>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Pealkiri:</label>
+                        <input type="text" name="title" id="title" class="form-control" required>
+                    </div>
 
-<!-- Button to redirect back to events.php -->
-<a href="events.php"><button>Tagasi sündmuste juurde</button></a>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Kirjeldus:</label>
+                        <textarea name="description" id="description" class="form-control" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="start_time" class="form-label">Algusaeg:</label>
+                        <input type="datetime-local" name="start_time" id="start_time" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="end_time" class="form-label">Lõpuaeg:</label>
+                        <input type="datetime-local" name="end_time" id="end_time" class="form-control" required>
+                    </div>
+
+                    <button type="submit" name="add_event" class="btn btn-custom">Lisa sündmus</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Display events with options to edit or delete -->
+        <?php if (count($events) > 0): ?>
+            <h3 class="mb-3">Sinu sündmused</h3>
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Pealkiri</th>
+                        <th>Kirjeldus</th>
+                        <th>Algusaeg</th>
+                        <th>Lõpuaeg</th>
+                        <th>Tegevused</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($events as $event): ?>
+                        <tr>
+                            <form method="post" action="manage_events.php">
+                                <td>
+                                    <input type="hidden" name="event_id" value="<?php echo $event['sondmus_id']; ?>">
+                                    <input type="text" name="title" value="<?php echo htmlspecialchars($event['pealkiri']); ?>"
+                                        class="form-control" required>
+                                </td>
+                                <td>
+                                    <textarea name="description" class="form-control"
+                                        required><?php echo htmlspecialchars($event['kirjeldus']); ?></textarea>
+                                </td>
+                                <td>
+                                    <input type="datetime-local" name="start_time"
+                                        value="<?php echo date('Y-m-d\TH:i', strtotime($event['algus_aeg'])); ?>"
+                                        class="form-control" required>
+                                </td>
+                                <td>
+                                    <input type="datetime-local" name="end_time"
+                                        value="<?php echo date('Y-m-d\TH:i', strtotime($event['lopp_aeg'])); ?>"
+                                        class="form-control" required>
+                                </td>
+                                <td>
+                                    <button type="submit" name="update_event" class="btn btn-warning mb-2">Muuda</button>
+                                    <a href="manage_events.php?delete=<?php echo $event['sondmus_id']; ?>"
+                                        class="btn btn-danger"
+                                        onclick="return confirm('Kas olete kindel, et soovite kustutada sündmuse?');">Kustuta</a>
+                                </td>
+                            </form>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p class="alert alert-info">Teil pole sündmusi.</p>
+        <?php endif; ?>
+
+        <!-- Button to redirect back to events.php -->
+        <div class="text-center mt-4">
+            <a href="events.php" class="btn btn-secondary">Tagasi sündмuste juurde</a>
+        </div>
+    </div>
 </body>
+
 </html>

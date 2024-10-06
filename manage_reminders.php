@@ -1,5 +1,6 @@
 <?php
 include 'db_connect.php';
+include 'navbar.php'; // Подключаем навигацию
 global $conn;
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -74,63 +75,92 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="et">
+
 <head>
     <meta charset="UTF-8">
     <title>Meeldetuletuste haldamine</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
+
 <body>
-<h2>Meeldetuletuste haldamine</h2>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Meeldetuletuste haldamine</h2>
 
-<!-- Form to add new reminder -->
-<h3>Lisa uus meeldetuletus</h3>
-<form method="post" action="manage_reminders.php">
-    <label for="event_id">Vali sündmus:</label>
-    <select name="event_id" id="event_id" required>
-        <?php foreach ($events as $event): ?>
-            <option value="<?php echo $event['sondmus_id']; ?>">
-                <?php echo htmlspecialchars($event['pealkiri']); ?>
-            </option>
-        <?php endforeach; ?>
-    </select><br><br>
-
-    <label for="reminder_time">Meeldetuletuse aeg:</label>
-    <input type="datetime-local" name="reminder_time" id="reminder_time" required><br><br>
-
-    <button type="submit" name="add_reminder">Lisa meeldetuletus</button>
-</form>
-
-<hr>
-
-<!-- Display reminders with options to edit or delete -->
-<?php if (count($reminders) > 0): ?>
-    <h3>Sinu meeldetuletused</h3>
-    <table border="1">
-        <tr>
-            <th>Sündmuse pealkiri</th>
-            <th>Meeldetuletuse aeg</th>
-            <th>Tegevused</th>
-        </tr>
-        <?php foreach ($reminders as $reminder): ?>
-            <tr>
+        <!-- Форма добавления нового напоминания -->
+        <div class="card mb-4">
+            <div class="card-header text-white">Lisa uus meeldetuletus</div>
+            <div class="card-body">
                 <form method="post" action="manage_reminders.php">
-                    <td><?php echo htmlspecialchars($reminder['pealkiri']); ?></td>
-                    <td>
-                        <input type="hidden" name="reminder_id" value="<?php echo $reminder['meeldetuletus_id']; ?>">
-                        <input type="datetime-local" name="reminder_time" value="<?php echo date('Y-m-d\TH:i', strtotime($reminder['meeldetuletuse_aeg'])); ?>" required>
-                    </td>
-                    <td>
-                        <button type="submit" name="update_reminder">Muuda</button>
-                        <a href="manage_reminders.php?delete=<?php echo $reminder['meeldetuletus_id']; ?>" onclick="return confirm('Kas olete kindel, et soovite kustutada meeldetuletuse?');">Kustuta</a>
-                    </td>
-                </form>
-            </tr>
-        <?php endforeach; ?>
-    </table>
-<?php else: ?>
-    <p>Teil pole meeldetuletusi.</p>
-<?php endif; ?>
+                    <div class="mb-3">
+                        <label for="event_id" class="form-label">Vali sündmus:</label>
+                        <select name="event_id" id="event_id" class="form-select" required>
+                            <?php foreach ($events as $event): ?>
+                                <option value="<?php echo $event['sondmus_id']; ?>">
+                                    <?php echo htmlspecialchars($event['pealkiri']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
-<!-- Button to redirect back to events.php -->
-<a href="events.php"><button>Tagasi sündmuste juurde</button></a>
+                    <div class="mb-3">
+                        <label for="reminder_time" class="form-label">Meeldetuletuse aeg:</label>
+                        <input type="datetime-local" name="reminder_time" id="reminder_time" class="form-control"
+                            required>
+                    </div>
+
+                    <button type="submit" name="add_reminder" class="btn btn-custom w-100">Lisa meeldetuletus</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Таблица с напоминаниями -->
+        <?php if (count($reminders) > 0): ?>
+            <h3 class="mb-3">Sinu meeldetuletused</h3>
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Sündmuse pealkiri</th>
+                        <th>Meeldetuletuse aeg</th>
+                        <th>Tegevused</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($reminders as $reminder): ?>
+                        <tr>
+                            <form method="post" action="manage_reminders.php">
+                                <td><?php echo htmlspecialchars($reminder['pealkiri']); ?></td>
+                                <td>
+                                    <input type="hidden" name="reminder_id"
+                                        value="<?php echo $reminder['meeldetuletus_id']; ?>">
+                                    <input type="datetime-local" name="reminder_time"
+                                        value="<?php echo date('Y-m-d\TH:i', strtotime($reminder['meeldetuletuse_aeg'])); ?>"
+                                        class="form-control" required>
+                                </td>
+                                <td>
+                                    <button type="submit" name="update_reminder" class="btn btn-warning mb-2">Muuda</button>
+                                    <a href="manage_reminders.php?delete=<?php echo $reminder['meeldetuletus_id']; ?>"
+                                        class="btn btn-danger"
+                                        onclick="return confirm('Kas olete kindel, et soovite kustutada meeldetuletuse?');">Kustuta</a>
+                                </td>
+                            </form>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p class="alert alert-info">Teil pole meeldetuletusi.</p>
+        <?php endif; ?>
+
+        <!-- Кнопка для возврата на страницу событий -->
+        <div class="text-center mt-4">
+            <a href="events.php" class="btn btn-secondary">Tagasi sündмuste juurde</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
 </body>
+
 </html>

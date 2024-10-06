@@ -1,0 +1,254 @@
+/* File: style.css */
+/* Подключение готического шрифта */
+
+@font-face {
+	font-family: 'Chomsky'; /* Название шрифта, которое вы будете использовать в CSS */
+	src: url('/fonts/Chomsky.ttf') format('opentype'); /* Укажите путь к вашему .otf файлу */
+	font-weight: normal;
+	font-style: normal;
+}
+/* Общий стиль для сайта */
+body {
+	background: #121212; /* Сплошной темный фон */
+	color: #e0e0e0;
+	font-family: 'Chomsky', sans-serif;
+	margin: 0;
+	padding: 0;
+	background-image: url('/images/bg.jpg'); /* Если у вас есть текстура, можно её добавить */
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+/* Стили для заголовков */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: #ffffff;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+/* Оформление навигации */
+.navbar {
+	background-color: rgba(0, 0, 0, 0.6); /* Черный цвет с прозрачностью 60% */
+	border: none; /* Убирает бордюр, если он есть */
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 1.6);
+}
+
+.navbar .nav-link {
+	color: #e0e0e0;
+}
+
+.navbar .nav-link:hover {
+	color: white;
+}
+
+/* Оформление кнопок */
+.btn-custom {
+	background-color: #2e2e2e;
+	color: #e0e0e0;
+	border: 2px solid #5f5f5f;
+	border-radius: 8px;
+	font-family: 'Chomsky', sans-serif;
+	font-size: 18px;
+	text-transform: uppercase;
+	padding: 10px 20px;
+	transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.btn-custom:hover {
+	background-color: #5f5f5f;
+	color: #ffffff;
+	border-color: #ffffff;
+}
+
+a {
+	color: #c0c0c0;
+}
+
+a:hover {
+	color: white;
+}
+
+/* Оформление форм */
+.form-control {
+	background-color: #2e2e2e;
+	border: none;
+	border-radius: 5px;
+	color: #e0e0e0;
+}
+
+.form-control::placeholder {
+	color: #9e9e9e;
+}
+
+/* Оформление карточек и контейнеров */
+.card {
+	background-color: #1e1e1e;
+	border: none;
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.9);
+}
+
+.card-header {
+	background-color: #4f4f4f;
+	color: #ffffff;
+}
+.container.mt-5 {
+	padding: 20px; /* Отступы внутри контейнера */
+}
+/* Центрирование формы и таблиц */
+.container {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.card {
+	background-color: #1e1e1e;
+	border: 1px solid #2e2e2e;
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
+}
+
+/* Стили таблиц */
+.table {
+	color: #e0e0e0;
+}
+.btn-logout {
+	background-color: #8b0000;
+	color: #ffffff;
+	border: 2px solid #8b0000;
+	font-family: 'Chomsky', sans-serif;
+	font-size: 18px;
+	padding: 10px 20px;
+	transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-logout:hover {
+	background-color: #ff4040;
+	border-color: #ff4040;
+}
+
+.table th {
+	background-color: #333;
+}
+
+.table td {
+	background-color: #2e2e2e;
+}
+
+/* Футер */
+footer {
+	background-color: #1e1e1e;
+	color: #e0e0e0;
+	text-align: center;
+	padding: 10px;
+	margin-top: 20px;
+}
+
+.fc {
+	background-color: #2e2e2e; /* Темный фон для календаря */
+	color: #e0e0e0; /* Цвет текста */
+	border-radius: 8px;
+	padding: 20px;
+}
+
+#calendar {
+	background-color: #1e1e1e;
+}
+
+.fc .fc-toolbar {
+	background-color: #2e2e2e; /* Темный фон для панели инструментов */
+	color: #e0e0e0; /* Цвет текста */
+}
+
+.fc .fc-daygrid-day-number {
+	color: #d3d3d3; /* Цвет номеров дней */
+}
+
+.fc-daygrid-event {
+	background-color: transparent; /* Прозрачный фон для событий */
+	border: none; /* Убираем бордюр */
+	color: #000000; /* Черный текст для событий */
+	font-family: 'Chomsky', sans-serif;
+}
+
+/* Стандартный стиль для полей ввода */
+input.form-control {
+	background-color: #343a40;
+	color: #fff;
+	border: 1px solid #6c757d;
+}
+
+/* Фокус на поле ввода */
+input.form-control:focus {
+	background-color: #1e2124;
+	border-color: #007bff;
+	outline: none;
+	box-shadow: none;
+	color: #ffffff;
+}
+
+.fc .fc-col-header-cell-cushion {
+	color: #d3d3d3;
+
+	/* Цвет текста в заголовке дней недели */
+	font-family: 'Chomsky', sans-serif;
+}
+
+/* Стили для кнопок в календаре */
+.fc .fc-button {
+	background-color: #4b0082; /* Темный цвет кнопок */
+	color: #ffffff; /* Цвет текста */
+	border: none; /* Без бордюра */
+	font-family: 'Chomsky', sans-serif;
+	transition: background-color 0.3s ease;
+}
+
+.fc .fc-button:hover {
+	background-color: #6a5acd; /* Более светлый цвет при наведении */
+}
+
+.fc-theme-standard .fc-scrollgrid {
+	border-color: #3a3a3a; /* Цвет бордюра для сетки */
+}
+
+.fc .fc-daygrid-day {
+	background-color: #1e1e1e; /* Фон для каждого дня */
+	border: 1px solid #3a3a3a; /* Бордюр дней */
+}
+
+.fc .fc-daygrid-day-top {
+	background-color: #2e2e2e; /* Темный фон для верхней части дня */
+}
+
+.fc .fc-daygrid-day-frame {
+	background-color: #1e1e1e; /* Фон для события */
+}
+/* Стили для модального окна */
+.modal-content {
+	background-color: #f8f9fa; /* Светлый фон для модального окна */
+	color: #000000; /* Черный текст */
+	font-family: 'Chomsky', sans-serif;
+}
+
+.modal-header {
+	background-color: #5f5f5f; /* Темный фон для заголовка модального окна */
+	color: #ffffff; /* Белый текст для заголовка */
+}
+
+.modal-footer .btn {
+	background-color: #5f5f5f;
+	color: #ffffff;
+	border: none;
+}
+
+.modal-footer .btn:hover {
+	background-color: #4b0082;
+}
+
+.modal-body p {
+	color: #000000; /* Черный цвет для текста в теле модального окна */
+}

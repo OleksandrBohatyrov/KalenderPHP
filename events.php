@@ -1,5 +1,6 @@
 <?php
 include 'db_connect.php';
+include 'navbar.php'; // Подключаем навигацию
 global $conn;
 
 // Fetch events for logged-in user
@@ -44,105 +45,93 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Sündmused</title>
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js'></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
 </head>
-<body class="bg-light">
+<body class="text-light">
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Sinu sündmused</h2>
+        <h2 class="text-center mb-4 gothic-text">Sinu sündmused</h2>
 
-        <!-- Action buttons -->
+        <!-- Кнопки для управления событиями -->
         <div class="d-flex justify-content-center mb-4">
-            <a href="manage_events.php" class="btn btn-primary me-3">Halda sündmusi</a>
-            <a href="manage_reminders.php" class="btn btn-success">Halda meeldetuletusi</a>
+            <a href="manage_events.php" class="btn btn-custom me-3">Halda sündmusi</a>
+            <a href="manage_reminders.php" class="btn btn-custom">Halda meeldetuletusi</a>
         </div>
 
-        <!-- Calendar container -->
-        <div id='calendar' class="bg-white p-4 shadow rounded"></div>
+        <!-- Календарь -->
+        <div id='calendar' class="p-4  rounded"></div>
 
-        <!-- Modal for displaying event details -->
-        <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="eventModalLabel">Sündmuse detailid</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p><strong id="eventTitle"></strong></p>
-                        <p id="eventDescription"></p>
-                        <p><strong>Algusaeg:</strong> <span id="eventStart"></span></p>
-                        <p><strong>Lõpuaeg:</strong> <span id="eventEnd"></span></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sulge</button>
-                    </div>
-                </div>
+        <!-- Модальное окно для деталей события -->
+        <!-- Модальное окно для отображения деталей события -->
+<div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalLabel">Sündmuse detailid</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong id="eventTitle"></strong></p>
+                <p id="eventDescription"></p>
+                <p><strong>Algusaeg:</strong> <span id="eventStart"></span></p>
+                <p><strong>Lõpuaeg:</strong> <span id="eventEnd"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sulge</button>
             </div>
         </div>
     </div>
+</div>
+
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
+     document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
 
-            // Function to generate random color
-            function getRandomColor() {
-                var letters = '0123456789ABCDEF';
-                var color = '#';
-                for (var i = 0; i < 6; i++) {
-                    color += letters[Math.floor(Math.random() * 16)];
-                }
-                return color;
-            }
+    // Функция для генерации случайного темного цвета
+    function getRandomDarkColor() {
+        var letters = '012345';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * letters.length)];
+        }
+        return color;
+    }
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
-            events: <?php echo json_encode($events); ?>,
-            eventClick: function (info) {
-                $('#eventTitle').text('Pealkiri: ' + info.event.title);
-                $('#eventDescription').text('Kirjeldus: ' + info.event.extendedProps.description);
-                $('#eventStart').text('Algusaeg: ' + new Date(info.event.start).toLocaleString());
-                $('#eventEnd').text('Lõpuaeg: ' + (info.event.end ? new Date(info.event.end).toLocaleString() : 'Pole määratud'));
-                $('#eventModal').modal('show');
-        
-            },
-            eventDidMount: function(info) {
-                // Assign a random color to each event
-                info.el.style.backgroundColor = getRandomColor();
-            },
-            eventBorderColor: 'transparent' // Убираем синий бордер
-        });
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: <?php echo json_encode($events); ?>,
+        eventDidMount: function (info) {
+            // Присваиваем случайный темный цвет каждому событию
+            var randomColor = getRandomDarkColor();
+            info.el.style.backgroundColor = randomColor;
+            info.el.style.borderColor = randomColor;
+        },
+        eventClick: function (info) {
+            $('#eventTitle').text('Pealkiri: ' + info.event.title);
+            $('#eventDescription').text('Kirjeldus: ' + info.event.extendedProps.description);
+            $('#eventStart').text('Algusaeg: ' + new Date(info.event.start).toLocaleString());
+            $('#eventEnd').text('Lõpuaeg: ' + (info.event.end ? new Date(info.event.end).toLocaleString() : 'Pole määratud'));
+            $('#eventModal').modal('show');
+        }
+    });
 
-            calendar.render();
-
-            // Reminders from PHP
-            var reminders = <?php echo json_encode($reminders); ?>;
-
-            // Function to check reminders every minute
-            setInterval(function () {
-                var now = new Date();
-                reminders.forEach(function (reminder) {
-                    var reminderTime = new Date(reminder);
-                    if (now.getFullYear() === reminderTime.getFullYear() &&
-                        now.getMonth() === reminderTime.getMonth() &&
-                        now.getDate() === reminderTime.getDate() &&
-                        now.getHours() === reminderTime.getHours() &&
-                        now.getMinutes() === reminderTime.getMinutes()) {
-                        alert("Meeldetuletus: on aeg ühe teie sündmuse jaoks!");
-                    }
-                });
-            }, 30000); // Check every minute
-        });
+    calendar.render();
+});
     </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
 </body>
 </html>
+
