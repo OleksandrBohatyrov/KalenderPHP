@@ -1,6 +1,7 @@
 <?php
 include 'db_connect.php';
 global $conn;
+
 // Register user
 if (isset($_POST['register'])) {
     $username = $_POST['username'];
@@ -10,8 +11,13 @@ if (isset($_POST['register'])) {
     $sql = "INSERT INTO Kasutajad (kasutajanimi, email, salasona, loodud) VALUES (?, ?, ?, NOW())";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sss", $username, $email, $password);
-    $stmt->execute();
-    echo "Registration successful";
+    if ($stmt->execute()) {
+        // Registration successful, redirect to events page
+        header("Location: events.php");
+        exit(); // Make sure to exit after redirection to stop further script execution
+    } else {
+        echo "Registration failed. Please try again.";
+    }
 }
 $conn->close();
 ?>

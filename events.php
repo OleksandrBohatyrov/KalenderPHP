@@ -17,7 +17,7 @@ if (isset($_SESSION['user_id'])) {
 
     while ($row = $result->fetch_assoc()) {
         $events[] = [
-            'id' => $row['sõndmus_id'],
+            'id' => $row['sondmus_id'],
             'title' => $row['pealkiri'],
             'description' => $row['kirjeldus'],
             'start' => $row['algus_aeg'],
@@ -51,43 +51,56 @@ $conn->close();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
 </head>
-<body>
-<h2>Sinu sündmused:</h2>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Sinu sündmused</h2>
 
-<!-- Button to redirect to manage_events.php -->
-<a href="manage_events.php"><button>Halda sündmusi</button></a>
-<!-- Button to redirect to manage_reminders.php -->
-<a href="manage_reminders.php"><button>Halda meeldetuletusi</button></a>
+        <!-- Action buttons -->
+        <div class="d-flex justify-content-center mb-4">
+            <a href="manage_events.php" class="btn btn-primary me-3">Halda sündmusi</a>
+            <a href="manage_reminders.php" class="btn btn-success">Halda meeldetuletusi</a>
+        </div>
 
-<!-- Calendar container -->
-<div id='calendar' style='margin-top: 20px;'></div>
+        <!-- Calendar container -->
+        <div id='calendar' class="bg-white p-4 shadow rounded"></div>
 
-<!-- Modal for displaying event details -->
-<div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="eventModalLabel">Sündmuse detailid</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p id="eventTitle"></p>
-                <p id="eventDescription"></p>
-                <p id="eventStart"></p>
-                <p id="eventEnd"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sulge</button>
+        <!-- Modal for displaying event details -->
+        <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="eventModalLabel">Sündmuse detailid</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong id="eventTitle"></strong></p>
+                        <p id="eventDescription"></p>
+                        <p><strong>Algusaeg:</strong> <span id="eventStart"></span></p>
+                        <p><strong>Lõpuaeg:</strong> <span id="eventEnd"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sulge</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+            // Function to generate random color
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             headerToolbar: {
                 left: 'prev,next today',
@@ -101,29 +114,35 @@ $conn->close();
                 $('#eventStart').text('Algusaeg: ' + new Date(info.event.start).toLocaleString());
                 $('#eventEnd').text('Lõpuaeg: ' + (info.event.end ? new Date(info.event.end).toLocaleString() : 'Pole määratud'));
                 $('#eventModal').modal('show');
-            }
+        
+            },
+            eventDidMount: function(info) {
+                // Assign a random color to each event
+                info.el.style.backgroundColor = getRandomColor();
+            },
+            eventBorderColor: 'transparent' // Убираем синий бордер
         });
 
-        calendar.render();
+            calendar.render();
 
-        // Reminders from PHP
-        var reminders = <?php echo json_encode($reminders); ?>;
+            // Reminders from PHP
+            var reminders = <?php echo json_encode($reminders); ?>;
 
-        // Function to check reminders every minute
-        setInterval(function () {
-            var now = new Date();
-            reminders.forEach(function (reminder) {
-                var reminderTime = new Date(reminder);
-                if (now.getFullYear() === reminderTime.getFullYear() &&
-                    now.getMonth() === reminderTime.getMonth() &&
-                    now.getDate() === reminderTime.getDate() &&
-                    now.getHours() === reminderTime.getHours() &&
-                    now.getMinutes() === reminderTime.getMinutes()) {
-                    alert("Meeldetuletus: on aeg ühe teie sündmuse jaoks!");
-                }
-            });
-        }, 30000);
-    });
-</script>
+            // Function to check reminders every minute
+            setInterval(function () {
+                var now = new Date();
+                reminders.forEach(function (reminder) {
+                    var reminderTime = new Date(reminder);
+                    if (now.getFullYear() === reminderTime.getFullYear() &&
+                        now.getMonth() === reminderTime.getMonth() &&
+                        now.getDate() === reminderTime.getDate() &&
+                        now.getHours() === reminderTime.getHours() &&
+                        now.getMinutes() === reminderTime.getMinutes()) {
+                        alert("Meeldetuletus: on aeg ühe teie sündmuse jaoks!");
+                    }
+                });
+            }, 30000); // Check every minute
+        });
+    </script>
 </body>
 </html>
