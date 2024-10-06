@@ -9,7 +9,7 @@ if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 
     // Fetch events
-    $sql = "SELECT sondmus_id, pealkiri, kirjeldus, algus_aeg, lõpp_aeg FROM `sondmused` WHERE kasutaja_id = ?";
+    $sql = "SELECT sondmus_id, pealkiri, kirjeldus, algus_aeg, lopp_aeg FROM `sondmused` WHERE kasutaja_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
