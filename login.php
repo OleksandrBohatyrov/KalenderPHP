@@ -17,7 +17,8 @@ if (isset($_POST['login'])) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['salasõna'])) {
             $_SESSION['user_id'] = $user['kasutaja_id'];
-            echo "Login successful";
+            header("Location: events.php");
+            exit();
         } else {
             echo "Invalid password";
         }
