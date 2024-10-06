@@ -24,5 +24,5 @@ CREATE TABLE `meeldetuletused` (
     meeldetuletus_id INT AUTO_INCREMENT PRIMARY KEY,
     sondmus_id INT,
     meeldetuletuse_aeg DATETIME NOT NULL,
-    FOREIGN KEY (sondmus_id) REFERENCES Sündmused(sondmus_id) ON DELETE CASCADE
+    FOREIGN KEY (sondmus_id) REFERENCES sondmused(sondmus_id) ON DELETE CASCADE
 );
