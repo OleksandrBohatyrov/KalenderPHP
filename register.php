@@ -7,7 +7,7 @@ if (isset($_POST['register'])) {
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO Kasutajad (kasutajanimi, email, salasõna, loodud) VALUES (?, ?, ?, NOW())";
+    $sql = "INSERT INTO Kasutajad (kasutajanimi, email, salasona, loodud) VALUES (?, ?, ?, NOW())";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sss", $username, $email, $password);
     $stmt->execute();
