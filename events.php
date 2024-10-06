@@ -17,7 +17,7 @@ if (isset($_SESSION['user_id'])) {
 
     while ($row = $result->fetch_assoc()) {
         $events[] = [
-            'id' => $row['sõndmus_id'],
+            'id' => $row['sondmus_id'],
             'title' => $row['pealkiri'],
             'description' => $row['kirjeldus'],
             'start' => $row['algus_aeg'],
