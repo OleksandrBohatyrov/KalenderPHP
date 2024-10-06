@@ -8,8 +8,8 @@ CREATE TABLE `Kasutajad` (
     loodud DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE `Sündmused` (
-    sündmus_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE `sõndmused` (
+    sõndmus_id INT AUTO_INCREMENT PRIMARY KEY,
     kasutaja_id INT,
     pealkiri VARCHAR(255) NOT NULL,
     kirjeldus TEXT NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE `Sündmused` (
     FOREIGN KEY (kasutaja_id) REFERENCES Kasutajad(kasutaja_id) ON DELETE CASCADE
 );
 
-CREATE TABLE `Meeldetuletused` (
+CREATE TABLE `meeldetuletused` (
     meeldetuletus_id INT AUTO_INCREMENT PRIMARY KEY,
     sündmus_id INT,
     meeldetuletuse_aeg DATETIME NOT NULL,
