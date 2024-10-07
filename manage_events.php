@@ -13,10 +13,14 @@ $user_id = $_SESSION['user_id'];
 // Handle delete event request
 if (isset($_GET['delete'])) {
     $event_id = $_GET['delete'];
-    $delete_sql = "DELETE FROM `sondmused` WHERE sündmus_id = ?";
+    $delete_sql = "DELETE FROM sondmused WHERE sondmus_id = ?";
     $delete_stmt = $conn->prepare($delete_sql);
     $delete_stmt->bind_param("i", $event_id);
     $delete_stmt->execute();
+
+    header("Location: manage_events.php");
+    exit();
+
 
 }
 
