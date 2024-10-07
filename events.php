@@ -1,6 +1,6 @@
 <?php
 include 'db_connect.php';
-include 'includes/nav.html'; // Подключаем навигацию
+include 'includes/nav.php'; // Подключаем навигацию
 global $conn;
 
 // Fetch events for logged-in user

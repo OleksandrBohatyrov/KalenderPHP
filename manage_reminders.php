@@ -1,6 +1,6 @@
 <?php
 include 'db_connect.php';
-include 'includes/nav.html'; // Подключаем навигацию
+include 'includes/nav.php'; // Подключаем навигацию
 global $conn;
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {

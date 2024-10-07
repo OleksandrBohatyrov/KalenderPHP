@@ -262,3 +262,13 @@ input.form-control:focus {
     background: none;
 }
 
+input[type="submit"]:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+input[type="submit"]:disabled:hover {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}

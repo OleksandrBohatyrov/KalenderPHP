@@ -18,7 +18,11 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
+                    <?php if(isset($_SESSION['user_id'])): ?>
                     <a class="nav-link btn btn-danger text-white" href="logout.php">Logi välja</a>
+                    <?php else: ?>
+                    <a class="nav-link btn btn-danger text-white" href="login.php">Sisene</a>
+                    <?php endif; ?>
                 </li>
             </ul>
         </div>
