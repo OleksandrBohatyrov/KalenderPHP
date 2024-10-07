@@ -1,12 +1,12 @@
 /* File: style.css */
 /* Подключение готического шрифта */
 
-@font-face {
-	font-family: 'Chomsky'; /* Название шрифта, которое вы будете использовать в CSS */
-	src: url('/fonts/Chomsky.ttf') format('opentype'); /* Укажите путь к вашему .otf файлу */
-	font-weight: normal;
-	font-style: normal;
-}
+/*@font-face {*/
+/*	font-family: 'Chomsky'; !* Название шрифта, которое вы будете использовать в CSS *!*/
+/*	src: url('/fonts/Chomsky.ttf') format('opentype'); !* Укажите путь к вашему .otf файлу *!*/
+/*	font-weight: normal;*/
+/*	font-style: normal;*/
+/*}*/
 /* Общий стиль для сайта */
 body {
 	background: #121212; /* Сплошной темный фон */
@@ -252,3 +252,13 @@ input.form-control:focus {
 .modal-body p {
 	color: #000000; /* Черный цвет для текста в теле модального окна */
 }
+
+.footer {
+  text-align: center; /* Текст по центру */
+  padding: 10px 0; /* Минимальные отступы сверху и снизу */
+  font-size: 12px; /* Размер шрифта для компактности */
+  bottom: 0; /* Привязка к нижней части страницы */
+  width: 100%; /* На всю ширину экрана */
+    background: none;
+}
+

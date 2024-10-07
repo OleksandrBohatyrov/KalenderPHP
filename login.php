@@ -58,6 +58,8 @@ $conn->close();
             </form>
             <div class="text-center mt-3">
                 <a href="register.php">Registreeru</a>
+                <a href="events.php">Tagasi</a>
+
             </div>
         </div>
     </div>
@@ -66,5 +68,7 @@ $conn->close();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<?php include 'includes/footer.html'; ?>
+
 </body>
 </html>

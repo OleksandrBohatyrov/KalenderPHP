@@ -1,6 +1,6 @@
 <?php
 include 'db_connect.php';
-include 'navbar.php';
+include 'includes/nav.html'; // Подключаем навигацию
 
 // Проверяем, если сессия не активна, запускаем её
 if (session_status() === PHP_SESSION_NONE) {
@@ -68,6 +68,8 @@ $conn->close();
             </form>
             <div class="text-center mt-3">
                 <a href="login.php">Logi sisse</a>
+                <a href="events.php">Tagasi</a>
+
             </div>
         </div>
     </div>
@@ -76,6 +78,8 @@ $conn->close();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<?php include 'includes/footer.html'; ?>
+
 </body>
 
 </html>

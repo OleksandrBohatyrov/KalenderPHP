@@ -1,6 +1,6 @@
 <?php
 include 'db_connect.php';
-include 'navbar.php'; // Подключаем файл с навигацией
+include 'includes/nav.html'; // Подключаем навигацию
 global $conn;
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -165,6 +165,8 @@ $conn->close();
             <a href="events.php" class="btn btn-secondary">Tagasi sündмuste juurde</a>
         </div>
     </div>
+<?php include 'includes/footer.html'; ?>
+
 </body>
 
 </html>

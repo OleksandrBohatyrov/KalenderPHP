@@ -1,6 +1,6 @@
 <?php
 include 'db_connect.php';
-include 'navbar.php'; // Подключаем навигацию
+include 'includes/nav.html'; // Подключаем навигацию
 global $conn;
 
 // Fetch events for logged-in user
@@ -132,6 +132,9 @@ $conn->close();
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
+
+<?php include 'includes/footer.html'; ?>
+
 </body>
 </html>
 
