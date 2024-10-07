@@ -75,9 +75,10 @@ $conn->close();
     <title>Sündmuste haldamine</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <script src="js/events_script.js"></script>
 </head>
 
-<body >
+<body onload="disableBtn();">
     <div class="container mt-5">
         <h2 class="text-center mb-4">Sündmuste haldamine</h2>
 
@@ -90,25 +91,25 @@ $conn->close();
                 <form method="post" action="manage_events.php">
                     <div class="mb-3">
                         <label for="title" class="form-label">Pealkiri:</label>
-                        <input type="text" name="title" id="title" class="form-control" required>
+                        <input oninput="fieldsValidation()" type="text" name="title" id="title" class="form-control" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="description" class="form-label">Kirjeldus:</label>
-                        <textarea name="description" id="description" class="form-control" required></textarea>
+                        <textarea oninput="fieldsValidation()" name="description" id="description" class="form-control" required></textarea>
                     </div>
 
                     <div class="mb-3">
                         <label for="start_time" class="form-label">Algusaeg:</label>
-                        <input type="datetime-local" name="start_time" id="start_time" class="form-control" required>
+                        <input oninput="fieldsValidation()" type="datetime-local" name="start_time" id="start_time" class="form-control" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="end_time" class="form-label">Lõpuaeg:</label>
-                        <input type="datetime-local" name="end_time" id="end_time" class="form-control" required>
+                        <input oninput="fieldsValidation()" type="datetime-local" name="end_time" id="end_time" class="form-control" required>
                     </div>
 
-                    <button type="submit" name="add_event" class="btn btn-custom">Lisa sündmus</button>
+                    <button type="submit" name="add_event" class="btn btn-custom" id="events-btn">Lisa sündmus</button>
                 </form>
             </div>
         </div>

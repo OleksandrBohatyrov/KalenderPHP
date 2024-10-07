@@ -1,12 +1,12 @@
-function DisableRegBtn(){
+function disableRegBtn(){
     document.getElementById('reg-btn').disabled=true;
 
 }
-function DisableLoginBtn(){
+function disableLoginBtn(){
     document.getElementById('login-btn').disabled=true;
 
 }
-function LoginFieldsValidation(){
+function loginFieldsValidation(){
     let email  =document.getElementById('login-email');
     let pass  =document.getElementById('login-pass');
 
@@ -20,7 +20,7 @@ function LoginFieldsValidation(){
 
     }
 }
-function RegisterFieldsValidation(){
+function registerFieldsValidation(){
 
     let name=document.getElementById('reg-name');
     let email =document.getElementById('reg-email');
@@ -43,7 +43,7 @@ function RegisterFieldsValidation(){
 
     }
 }
- function DisplayErrorMessage(error) {
+ function displayErrorMessage(error) {
             const errorDiv = document.getElementById('error-div');
             errorDiv.innerText = "Viga: "+error;
 

@@ -7,7 +7,7 @@ if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT kasutaja_id, salasona FROM Kasutajad WHERE email = ?";
+    $sql = "SELECT kasutaja_id, salasona FROM kasutajad WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -46,7 +46,7 @@ $conn->close();
     <script src="js/auth_script.js"></script>
 
 </head>
-<body onload="DisableLoginBtn(); displayErrorMessage();">
+<body onload="disableLoginBtn(); displayErrorMessage();">
    <div class="container mt-5">
         <h2 class="text-center mb-4">Logi sisse</h2>
 
@@ -56,11 +56,11 @@ $conn->close();
             <form method="post" action="login.php">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input oninput="LoginFieldsValidation()" type="email" class="form-control" id="login-email" name="email" placeholder="Email" required>
+                    <input oninput="loginFieldsValidation()" type="email" class="form-control" id="login-email" name="email" placeholder="Email" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Salasõна</label>
-                    <input oninput="LoginFieldsValidation()" type="password" class="form-control" id="login-pass" name="password" placeholder="Salasõна" required>
+                    <input oninput="loginFieldsValidation()" type="password" class="form-control" id="login-pass" name="password" placeholder="Salasõна" required>
                 </div>
                 <button type="submit" name="login" id="login-btn" class="btn btn-custom w-100">Logi sisse</button>
             </form>

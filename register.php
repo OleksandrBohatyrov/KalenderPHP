@@ -13,7 +13,7 @@ global $conn;
 if (isset($_POST['register'])) {
     $email = $_POST['email'];
 
-    $sql = "SELECT kasutaja_id FROM Kasutajad WHERE email=?";
+    $sql = "SELECT kasutaja_id FROM kasutajad WHERE email=?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -21,12 +21,12 @@ if (isset($_POST['register'])) {
     $result = $stmt->get_result();
 
     if (!$result->num_rows > 0) {
-        if (IsStrongPassword($_POST['password'])){
+        if (isStrongPassword($_POST['password'])){
             $username = $_POST['username'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
             // Вставляем нового пользователя в базу данных
-            $sql = "INSERT INTO Kasutajad (kasutajanimi, email, salasona, loodud) VALUES (?, ?, ?, NOW())";
+            $sql = "INSERT INTO kasutajad (kasutajanimi, email, salasona, loodud) VALUES (?, ?, ?, NOW())";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("sss", $username, $email, $password);
             $stmt->execute();
@@ -72,7 +72,7 @@ $conn->close();
 
 </head>
 
-<body onload="DisableRegBtn();  displayErrorMessage();">
+<body onload="disableRegBtn();  displayErrorMessage();">
     <div class="container mt-5">
         <h2 class="text-center mb-4">Registreerimine</h2>
         <div class="card p-4">
@@ -81,19 +81,19 @@ $conn->close();
 
                 <div class="mb-3">
                     <label for="username" class="form-label">Kasutajanimi</label>
-                    <input oninput="RegisterFieldsValidation()" id="reg-name" type="text" name="username" class="form-control" placeholder="Kasutajanimi" required>
+                    <input oninput="registerFieldsValidation()" id="reg-name" type="text" name="username" class="form-control" placeholder="Kasutajanimi" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input oninput="RegisterFieldsValidation()" id="reg-email" type="email" name="email" class="form-control" placeholder="Email" required>
+                    <input oninput="registerFieldsValidation()" id="reg-email" type="email" name="email" class="form-control" placeholder="Email" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Salasõna</label>
-                    <input oninput="RegisterFieldsValidation()" id="reg-pass" type="password" name="password" class="form-control" placeholder="Salasõna" required>
+                    <input oninput="registerFieldsValidation()" id="reg-pass" type="password" name="password" class="form-control" placeholder="Salasõna" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Kinnita salasõna</label>
-                    <input oninput="RegisterFieldsValidation()" id="reg-pass-confirm" type="password"  class="form-control" placeholder="Salasõna" required>
+                    <input oninput="registerFieldsValidation()" id="reg-pass-confirm" type="password"  class="form-control" placeholder="Salasõna" required>
                 </div>
                 <button type="submit" name="register" id="reg-btn" class="btn btn-custom w-100">Registreeri</button>
             </form>

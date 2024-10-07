@@ -1,5 +1,5 @@
 <?php
-function IsStrongPassword($pass)
+function isStrongPassword($pass)
 {
     if (!preg_match('/\d/', $pass)) {
         return false;

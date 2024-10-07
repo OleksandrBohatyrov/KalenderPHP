@@ -81,9 +81,10 @@ $conn->close();
     <title>Meeldetuletuste haldamine</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <script src="js/reminders_script.js"></script>
 </head>
 
-<body>
+<body onload="disableBtn();">
     <div class="container mt-5">
         <h2 class="text-center mb-4">Meeldetuletuste haldamine</h2>
 
@@ -94,7 +95,7 @@ $conn->close();
                 <form method="post" action="manage_reminders.php">
                     <div class="mb-3">
                         <label for="event_id" class="form-label">Vali sündmus:</label>
-                        <select name="event_id" id="event_id" class="form-select" required>
+                        <select  name="event_id" id="event_id" class="form-select" required>
                             <?php foreach ($events as $event): ?>
                                 <option value="<?php echo $event['sondmus_id']; ?>">
                                     <?php echo htmlspecialchars($event['pealkiri']); ?>
@@ -105,11 +106,11 @@ $conn->close();
 
                     <div class="mb-3">
                         <label for="reminder_time" class="form-label">Meeldetuletuse aeg:</label>
-                        <input type="datetime-local" name="reminder_time" id="reminder_time" class="form-control"
+                        <input oninput="fieldsValidation()" type="datetime-local" name="reminder_time" id="reminder_time" class="form-control"
                             required>
                     </div>
 
-                    <button type="submit" name="add_reminder" class="btn btn-custom w-100">Lisa meeldetuletus</button>
+                    <button type="submit" name="add_reminder" class="btn btn-custom w-100" id="rem-btn">Lisa meeldetuletus</button>
                 </form>
             </div>
         </div>
