@@ -130,7 +130,7 @@ $conn->close();
                     <?php foreach ($reminders as $reminder): ?>
                         <tr>
                             <form method="post" action="manage_reminders.php">
-                                <td><?php echo htmlspecialchars($reminder['pealkiri']); ?></td>
+                                <td><input type="text" class="form-control" disabled value=<?php echo htmlspecialchars($reminder['pealkiri']); ?>></td>
                                 <td>
                                     <input type="hidden" name="reminder_id"
                                         value="<?php echo $reminder['meeldetuletus_id']; ?>">
@@ -139,10 +139,12 @@ $conn->close();
                                         class="form-control" required>
                                 </td>
                                 <td>
-                                    <button type="submit" name="update_reminder" class="btn btn-warning mb-2">Muuda</button>
+                                    <div class="btn-container">
+                                    <button type="submit" name="update_reminder" class="btn btn-warning mb-2 fixed-size">Muuda</button>
                                     <a href="manage_reminders.php?delete=<?php echo $reminder['meeldetuletus_id']; ?>"
-                                        class="btn btn-danger"
+                                        class="btn btn-danger fixed-size"
                                         onclick="return confirm('Kas olete kindel, et soovite kustutada meeldetuletuse?');">Kustuta</a>
+                                    </div>
                                 </td>
                             </form>
                         </tr>

@@ -22,7 +22,7 @@ if (isset($_SESSION['user_id'])) {
             'title' => $row['pealkiri'],
             'description' => $row['kirjeldus'],
             'start' => $row['algus_aeg'],
-            'end' => $row['lopp-aeg']
+            'end' => $row['lopp_aeg']
         ];
     }
 

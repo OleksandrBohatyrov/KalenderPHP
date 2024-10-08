@@ -46,7 +46,7 @@ if (isset($_POST['add_event'])) {
     $start_time = $_POST['start_time'];
     $end_time = $_POST['end_time'];
 
-    $insert_sql = "INSERT INTO `sondmused` (kasutaja_id, pealkiri, kirjeldus, algus_aeg, lopp_aeg, loodud) VALUES (?, ?, ?, ?, ?, NOW())";
+    $insert_sql = "INSERT INTO sondmused (kasutaja_id, pealkiri, kirjeldus, algus_aeg, lopp_aeg, loodud) VALUES (?, ?, ?, ?, ?, NOW())";
     $insert_stmt = $conn->prepare($insert_sql);
     $insert_stmt->bind_param("issss", $user_id, $title, $description, $start_time, $end_time);
     $insert_stmt->execute();
@@ -109,7 +109,7 @@ $conn->close();
                         <input oninput="fieldsValidation()" type="datetime-local" name="end_time" id="end_time" class="form-control" required>
                     </div>
 
-                    <button type="submit" name="add_event" class="btn btn-custom" id="events-btn">Lisa sündmus</button>
+                    <button type="submit" name="add_event" class="btn btn-custom w-100" id="events-btn">Lisa sündmus</button>
                 </form>
             </div>
         </div>
@@ -151,9 +151,9 @@ $conn->close();
                                         class="form-control" required>
                                 </td>
                                 <td>
-                                    <button type="submit" name="update_event" class="btn btn-warning mb-2">Muuda</button>
+                                    <button type="submit" name="update_event" class="btn btn-warning mb-2 fixed-size">Muuda</button>
                                     <a href="manage_events.php?delete=<?php echo $event['sondmus_id']; ?>"
-                                        class="btn btn-danger"
+                                        class="btn btn-danger fixed-size"
                                         onclick="return confirm('Kas olete kindel, et soovite kustutada sündmuse?');">Kustuta</a>
                                 </td>
                             </form>

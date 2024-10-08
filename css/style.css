@@ -272,3 +272,17 @@ input[type="submit"]:disabled:hover {
     color: #666;
     cursor: not-allowed;
 }
+
+input:disabled {
+    color: #666666;            /* Цвет текста */
+    border: 1px solid #ccc;     /* Цвет границы */
+}
+
+.fixed-size{
+	width: 100px;          /* Ширина кнопки */
+    height: 40px;          /* Высота кнопки */
+}
+.btn-container {
+    display: flex;
+    flex-direction: column; /* Вертикальное выравнивание */
+}
