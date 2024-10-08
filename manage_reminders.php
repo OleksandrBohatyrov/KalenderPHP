@@ -1,6 +1,6 @@
 <?php
 include 'db_connect.php';
-include 'navbar.php'; // Подключаем навигацию
+include 'includes/nav.php'; // Подключаем навигацию
 global $conn;
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -81,9 +81,10 @@ $conn->close();
     <title>Meeldetuletuste haldamine</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <script src="js/reminders_script.js"></script>
 </head>
 
-<body>
+<body onload="disableBtn();">
     <div class="container mt-5">
         <h2 class="text-center mb-4">Meeldetuletuste haldamine</h2>
 
@@ -94,7 +95,7 @@ $conn->close();
                 <form method="post" action="manage_reminders.php">
                     <div class="mb-3">
                         <label for="event_id" class="form-label">Vali sündmus:</label>
-                        <select name="event_id" id="event_id" class="form-select" required>
+                        <select  name="event_id" id="event_id" class="form-select" required>
                             <?php foreach ($events as $event): ?>
                                 <option value="<?php echo $event['sondmus_id']; ?>">
                                     <?php echo htmlspecialchars($event['pealkiri']); ?>
@@ -105,11 +106,11 @@ $conn->close();
 
                     <div class="mb-3">
                         <label for="reminder_time" class="form-label">Meeldetuletuse aeg:</label>
-                        <input type="datetime-local" name="reminder_time" id="reminder_time" class="form-control"
+                        <input oninput="fieldsValidation()" type="datetime-local" name="reminder_time" id="reminder_time" class="form-control"
                             required>
                     </div>
 
-                    <button type="submit" name="add_reminder" class="btn btn-custom w-100">Lisa meeldetuletus</button>
+                    <button type="submit" name="add_reminder" class="btn btn-custom w-100" id="rem-btn">Lisa meeldetuletus</button>
                 </form>
             </div>
         </div>
@@ -129,7 +130,7 @@ $conn->close();
                     <?php foreach ($reminders as $reminder): ?>
                         <tr>
                             <form method="post" action="manage_reminders.php">
-                                <td><?php echo htmlspecialchars($reminder['pealkiri']); ?></td>
+                                <td><input type="text" class="form-control" disabled value=<?php echo htmlspecialchars($reminder['pealkiri']); ?>></td>
                                 <td>
                                     <input type="hidden" name="reminder_id"
                                         value="<?php echo $reminder['meeldetuletus_id']; ?>">
@@ -138,10 +139,12 @@ $conn->close();
                                         class="form-control" required>
                                 </td>
                                 <td>
-                                    <button type="submit" name="update_reminder" class="btn btn-warning mb-2">Muuda</button>
+                                    <div class="btn-container">
+                                    <button type="submit" name="update_reminder" class="btn btn-warning mb-2 fixed-size">Muuda</button>
                                     <a href="manage_reminders.php?delete=<?php echo $reminder['meeldetuletus_id']; ?>"
-                                        class="btn btn-danger"
+                                        class="btn btn-danger fixed-size"
                                         onclick="return confirm('Kas olete kindel, et soovite kustutada meeldetuletuse?');">Kustuta</a>
+                                    </div>
                                 </td>
                             </form>
                         </tr>
@@ -161,6 +164,8 @@ $conn->close();
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<?php include 'includes/footer.html'; ?>
+
 </body>
 
 </html>

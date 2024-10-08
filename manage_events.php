@@ -1,6 +1,6 @@
 <?php
 include 'db_connect.php';
-include 'navbar.php'; // Подключаем файл с навигацией
+include 'includes/nav.php'; // Подключаем навигацию
 global $conn;
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -13,10 +13,14 @@ $user_id = $_SESSION['user_id'];
 // Handle delete event request
 if (isset($_GET['delete'])) {
     $event_id = $_GET['delete'];
-    $delete_sql = "DELETE FROM `sondmused` WHERE sündmus_id = ?";
+    $delete_sql = "DELETE FROM sondmused WHERE sondmus_id = ?";
     $delete_stmt = $conn->prepare($delete_sql);
     $delete_stmt->bind_param("i", $event_id);
     $delete_stmt->execute();
+
+    header("Location: manage_events.php");
+    exit();
+
 
 }
 
@@ -42,7 +46,7 @@ if (isset($_POST['add_event'])) {
     $start_time = $_POST['start_time'];
     $end_time = $_POST['end_time'];
 
-    $insert_sql = "INSERT INTO `sondmused` (kasutaja_id, pealkiri, kirjeldus, algus_aeg, lopp_aeg, loodud) VALUES (?, ?, ?, ?, ?, NOW())";
+    $insert_sql = "INSERT INTO sondmused (kasutaja_id, pealkiri, kirjeldus, algus_aeg, lopp_aeg, loodud) VALUES (?, ?, ?, ?, ?, NOW())";
     $insert_stmt = $conn->prepare($insert_sql);
     $insert_stmt->bind_param("issss", $user_id, $title, $description, $start_time, $end_time);
     $insert_stmt->execute();
@@ -71,9 +75,10 @@ $conn->close();
     <title>Sündmuste haldamine</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <script src="js/events_script.js"></script>
 </head>
 
-<body >
+<body onload="disableBtn();">
     <div class="container mt-5">
         <h2 class="text-center mb-4">Sündmuste haldamine</h2>
 
@@ -86,25 +91,25 @@ $conn->close();
                 <form method="post" action="manage_events.php">
                     <div class="mb-3">
                         <label for="title" class="form-label">Pealkiri:</label>
-                        <input type="text" name="title" id="title" class="form-control" required>
+                        <input oninput="fieldsValidation()" type="text" name="title" id="title" class="form-control" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="description" class="form-label">Kirjeldus:</label>
-                        <textarea name="description" id="description" class="form-control" required></textarea>
+                        <textarea oninput="fieldsValidation()" name="description" id="description" class="form-control" required></textarea>
                     </div>
 
                     <div class="mb-3">
                         <label for="start_time" class="form-label">Algusaeg:</label>
-                        <input type="datetime-local" name="start_time" id="start_time" class="form-control" required>
+                        <input oninput="fieldsValidation()" type="datetime-local" name="start_time" id="start_time" class="form-control" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="end_time" class="form-label">Lõpuaeg:</label>
-                        <input type="datetime-local" name="end_time" id="end_time" class="form-control" required>
+                        <input oninput="fieldsValidation()" type="datetime-local" name="end_time" id="end_time" class="form-control" required>
                     </div>
 
-                    <button type="submit" name="add_event" class="btn btn-custom">Lisa sündmus</button>
+                    <button type="submit" name="add_event" class="btn btn-custom w-100" id="events-btn">Lisa sündmus</button>
                 </form>
             </div>
         </div>
@@ -146,9 +151,9 @@ $conn->close();
                                         class="form-control" required>
                                 </td>
                                 <td>
-                                    <button type="submit" name="update_event" class="btn btn-warning mb-2">Muuda</button>
+                                    <button type="submit" name="update_event" class="btn btn-warning mb-2 fixed-size">Muuda</button>
                                     <a href="manage_events.php?delete=<?php echo $event['sondmus_id']; ?>"
-                                        class="btn btn-danger"
+                                        class="btn btn-danger fixed-size"
                                         onclick="return confirm('Kas olete kindel, et soovite kustutada sündmuse?');">Kustuta</a>
                                 </td>
                             </form>
@@ -165,6 +170,8 @@ $conn->close();
             <a href="events.php" class="btn btn-secondary">Tagasi sündмuste juurde</a>
         </div>
     </div>
+<?php include 'includes/footer.html'; ?>
+
 </body>
 
 </html>

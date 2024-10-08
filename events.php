@@ -1,6 +1,6 @@
 <?php
 include 'db_connect.php';
-include 'navbar.php'; // Подключаем навигацию
+include 'includes/nav.php'; // Подключаем навигацию
 global $conn;
 
 // Fetch events for logged-in user
@@ -27,7 +27,7 @@ if (isset($_SESSION['user_id'])) {
     }
 
     // Fetch reminders
-    $reminder_sql = "SELECT meeldetuletuse_aeg FROM `meeldetuletused` INNER JOIN `sondmused` ON `Meeldetuletused`.sondmus_id = `sondmused`.sondmus_id WHERE `sondmused`.kasutaja_id = ?";
+    $reminder_sql = "SELECT meeldetuletuse_aeg FROM meeldetuletused INNER JOIN sondmused ON Meeldetuletused.sondmus_id = sondmused.sondmus_id WHERE sondmused.kasutaja_id = ?";
     $reminder_stmt = $conn->prepare($reminder_sql);
     $reminder_stmt->bind_param("i", $user_id);
     $reminder_stmt->execute();
@@ -74,10 +74,10 @@ $conn->close();
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p><strong id="eventTitle"></strong></p>
-                <p id="eventDescription"></p>
-                <p><strong>Algusaeg:</strong> <span id="eventStart"></span></p>
-                <p><strong>Lõpuaeg:</strong> <span id="eventEnd"></span></p>
+                <p><strong>Pealkiri: </strong> <span id="eventTitle"></span></p>
+                <p><strong>Kirjeldus: </strong><span id="eventDescription"></span></p>
+                <p><strong>Algusaeg: </strong> <span id="eventStart"></span></p>
+                <p><strong>Lõpuaeg: </strong> <span id="eventEnd"></span></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sulge</button>
@@ -117,10 +117,10 @@ $conn->close();
             info.el.style.borderColor = randomColor;
         },
         eventClick: function (info) {
-            $('#eventTitle').text('Pealkiri: ' + info.event.title);
-            $('#eventDescription').text('Kirjeldus: ' + info.event.extendedProps.description);
-            $('#eventStart').text('Algusaeg: ' + new Date(info.event.start).toLocaleString());
-            $('#eventEnd').text('Lõpuaeg: ' + (info.event.end ? new Date(info.event.end).toLocaleString() : 'Pole määratud'));
+            $('#eventTitle').text(info.event.title);
+            $('#eventDescription').text(info.event.extendedProps.description);
+            $('#eventStart').text(new Date(info.event.start).toLocaleString());
+            $('#eventEnd').text(new Date(info.event.end).toLocaleString());
             $('#eventModal').modal('show');
         }
     });
@@ -132,6 +132,9 @@ $conn->close();
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
+
+<?php include 'includes/footer.html'; ?>
+
 </body>
 </html>
 
