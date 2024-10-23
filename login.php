@@ -1,6 +1,6 @@
 <?php
-include 'db_connect.php';
-include 'navbar.php';
+session_start();
+require_once 'db_connect.php';
 global $conn;
 
 if (isset($_POST['login'])) {
@@ -17,7 +17,7 @@ if (isset($_POST['login'])) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['salasona'])) {
             $_SESSION['user_id'] = $user['kasutaja_id'];
-            header("Location: events.php");
+            header("Location: index.php");
             exit();
         } else {
             header("Location: login.php?error=invalid_password");
@@ -42,7 +42,7 @@ $conn->close();
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <script src="js/auth_script.js"></script>
 
 </head>
@@ -66,7 +66,7 @@ $conn->close();
             </form>
             <div class="text-center mt-3">
                 <a href="register.php">Registreeru</a>
-                <a href="events.php">Tagasi</a>
+                <a href="index.php">Tagasi</a>
             </div>
         </div>
     </div>

@@ -1,20 +1,10 @@
-/* File: style.css */
-/* Подключение готического шрифта */
-
-/*@font-face {*/
-/*	font-family: 'Chomsky'; !* Название шрифта, которое вы будете использовать в CSS *!*/
-/*	src: url('/fonts/Chomsky.ttf') format('opentype'); !* Укажите путь к вашему .otf файлу *!*/
-/*	font-weight: normal;*/
-/*	font-style: normal;*/
-/*}*/
-/* Общий стиль для сайта */
 body {
 	background: #121212; /* Сплошной темный фон */
 	color: #e0e0e0;
 	font-family: 'Chomsky', sans-serif;
 	margin: 0;
 	padding: 0;
-	background-image: url('/images/bg.jpg'); /* Если у вас есть текстура, можно её добавить */
+	background-image: url('../images/bg.jpg'); /* Если у вас есть текстура, можно её добавить */
 	background-size: cover;
 	background-attachment: fixed;
 }

@@ -1,13 +1,15 @@
 <?php
-include 'db_connect.php';
-include 'includes/nav.php'; // Подключаем навигацию
+session_start();
+ob_start(); // Start output buffering
+require_once 'db_connect.php';
+require_once 'includes/nav.php'; 
 global $conn;
+
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
-
 $user_id = $_SESSION['user_id'];
 
 // Handle delete reminder request
@@ -80,7 +82,7 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Meeldetuletuste haldamine</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <script src="js/reminders_script.js"></script>
 </head>
 
@@ -157,7 +159,7 @@ $conn->close();
 
         <!-- Кнопка для возврата на страницу событий -->
         <div class="text-center mt-4">
-            <a href="events.php" class="btn btn-secondary">Tagasi sündмuste juurde</a>
+            <a href="index.php" class="btn btn-secondary">Tagasi sündмuste juurde</a>
         </div>
     </div>
 

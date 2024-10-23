@@ -1,6 +1,8 @@
 <?php
-include 'db_connect.php';
-include 'includes/nav.php'; // Подключаем навигацию
+session_start();
+
+require_once 'db_connect.php';
+require_once 'includes/nav.php';
 global $conn;
 
 // Fetch events for logged-in user
@@ -27,7 +29,7 @@ if (isset($_SESSION['user_id'])) {
     }
 
     // Fetch reminders
-    $reminder_sql = "SELECT meeldetuletuse_aeg FROM meeldetuletused INNER JOIN sondmused ON Meeldetuletused.sondmus_id = sondmused.sondmus_id WHERE sondmused.kasutaja_id = ?";
+    $reminder_sql = "SELECT meeldetuletuse_aeg FROM meeldetuletused INNER JOIN sondmused ON meeldetuletused.sondmus_id = sondmused.sondmus_id WHERE sondmused.kasutaja_id = ?";
     $reminder_stmt = $conn->prepare($reminder_sql);
     $reminder_stmt->bind_param("i", $user_id);
     $reminder_stmt->execute();
@@ -46,7 +48,7 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Sündmused</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js'></script>

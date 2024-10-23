@@ -1,6 +1,7 @@
 <?php
-include 'db_connect.php';
-include 'functions.php';
+session_start();
+require_once 'db_connect.php';
+require_once 'functions.php';
 
 // Проверяем, если сессия не активна, запускаем её
 if (session_status() === PHP_SESSION_NONE) {
@@ -38,7 +39,7 @@ if (isset($_POST['register'])) {
             $_SESSION['user_id'] = $user_id;
 
             // Перенаправляем на страницу с событиями
-            header("Location: events.php");
+            header("Location: index.php");
             exit();
 
     exit();
@@ -67,7 +68,7 @@ $conn->close();
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <script src="js/auth_script.js"></script>
 
 </head>
@@ -99,7 +100,7 @@ $conn->close();
             </form>
             <div class="text-center mt-3">
                 <a href="login.php">Logi sisse</a>
-                <a href="events.php">Tagasi</a>
+                <a href="index.php">Tagasi</a>
 
             </div>
         </div>
